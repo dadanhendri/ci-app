@@ -27,12 +27,21 @@ class Page extends Ci_Controller
 
         $this->load->view('page/index', $data);
     }
+
+    public function ambilData(){
+    	$dataPasien = $this->Pasien_model->getAllPasien();
+    	echo json_encode($dataPasien);
+    }
+
+
+
+
+
+
+
+
+
+
+
     
 }
-
-
-
-
-
-
-?>
