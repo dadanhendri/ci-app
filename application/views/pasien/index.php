@@ -41,6 +41,9 @@
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
+
+							<p id="pesan" class="text-center"></p>
+
 							<div class="modal-body">
 								<form action="">
 									<div class="form-group row">
@@ -73,7 +76,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
-								<button type="submit" class="btn btn-primary">Tambah</button>
+								<button type="text" class="btn btn-primary" onclick="tambahData();">Tambah</button>
 							</div>
 							
 						</div>
@@ -92,7 +95,6 @@
 	<script src="<?php echo base_url(). 'assets/js/jquery-3.5.1.min.js'; ?>"></script>
 	<script src="<?php echo base_url(). 'assets/js/bootstrap.js' ?>"></script>
 	<script>
-		$(document).ready(function(){
 			ambilData();
 
 			function ambilData(){
@@ -119,7 +121,37 @@
 				});
 			}
 
-		});
+			function tambahData(){
+				var norm = $("[name='norm']").val();
+				var nama = $("[name='nama']").val();
+				var alamat = $("[name='alamat']").val();
+				var notelp = $("[name='notelp']").val();
+
+				$.ajax({
+					type:'post',
+					url:'<?php echo base_url()."pasien/tambahData" ?>',
+					data:'no_rekam_medis='+norm+'&nama_pasien='+nama+'&alamat='+alamat+'&no_telp_pasien='+notelp,
+					dataType:'json',
+					success:function(hasil){
+						$('#pesan').html(hasil);
+						if(hasil == ''){
+							$('#form').modal('hide');
+							ambilData();
+							$("[name='norm']").val('');
+							$("[name='nama']").val('');
+							$("[name='alamat']").val('');
+							$("[name='notelp']").val('');
+						}
+					}
+				});
+			}
+
+
+
+
+
+
+
 	</script>
 	
 </body>

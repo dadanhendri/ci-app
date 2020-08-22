@@ -21,6 +21,11 @@ class Pasien_model extends Ci_Model
 		return $this->db->get('pasien')->num_rows();
 	}
 
+	public function tambahData($data)
+	{
+		$this->db->insert('pasien', $data);
+	}
+
 
 
 
