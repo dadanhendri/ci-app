@@ -6,7 +6,7 @@ class Pasien_model extends Ci_Model
 {
 	public function getAllPasien()
 	{
-		return $this->db->get('pasien',100)->result();
+		return $this->db->get('pasien')->result();
 	}
 
 
