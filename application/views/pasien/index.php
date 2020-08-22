@@ -14,7 +14,7 @@
 			<div class="col-md-12">
 				<h1 class="text-center">Data Pasien</h1>
 
-				<a href="#form" data-toggle="modal" class="btn btn-primary">Tambah Data</a>
+				<a href="#form" data-toggle="modal" class="btn btn-primary" onclick="submit('tambah')">Tambah Data</a>
 
 				<table class="table table-hover table-border table-sm">
 					<thead class="bg-danger">
@@ -24,6 +24,7 @@
 							<th>Nama</th>
 							<th>Alamat</th>
 							<th>No Telp</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody id="tabel-pasien">
@@ -42,7 +43,7 @@
 								</button>
 							</div>
 
-							<p id="pesan" class="text-center"></p>
+							<div class="alert alert-danger" id="pesan"></div>
 
 							<div class="modal-body">
 								<form action="">
@@ -76,7 +77,8 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
-								<button type="text" class="btn btn-primary" onclick="tambahData();">Tambah</button>
+								<button type="text" class="btn btn-primary" id="btn-tambah" onclick="tambahData();">Tambah</button>
+								<button type="text" class="btn btn-primary" id="btn-ubah" onclick="ubahData();">Ubah</button>
 							</div>
 							
 						</div>
@@ -94,7 +96,9 @@
 
 	<script src="<?php echo base_url(). 'assets/js/jquery-3.5.1.min.js'; ?>"></script>
 	<script src="<?php echo base_url(). 'assets/js/bootstrap.js' ?>"></script>
+	<script src="<?php echo base_url(). 'assets/js/sweetalert/sweetalert2.all.min.js' ?>"></script>
 	<script>
+
 			ambilData();
 
 			function ambilData(){
@@ -112,6 +116,10 @@
 										'<td>'+data.nama_pasien+'</td>'+
 										'<td>'+data.alamat+'</td>'+
 										'<td>'+data.no_telp_pasien+'</td>'+
+										'<td>'+
+											'<a href="#form" data-toggle="modal" class="badge badge-success" onclick="submit()">Ubah</a href="#">'+
+
+										'</td>'+
 									'</tr>';
 							no++;
 						});
@@ -122,6 +130,7 @@
 			}
 
 			function tambahData(){
+				$('#pesan').hide();
 				var norm = $("[name='norm']").val();
 				var nama = $("[name='nama']").val();
 				var alamat = $("[name='alamat']").val();
@@ -134,7 +143,13 @@
 					dataType:'json',
 					success:function(hasil){
 						$('#pesan').html(hasil);
+						// $('#pesan').show();
 						if(hasil == ''){
+							swal.fire({
+								title:'Data berhasil ditambahkan',
+								icon:'success'
+							});
+
 							$('#form').modal('hide');
 							ambilData();
 							$("[name='norm']").val('');
@@ -144,6 +159,16 @@
 						}
 					}
 				});
+			}
+
+			function submit(x){
+				if(x=='tambah'){
+					$('#btn-tambah').show();
+					$('#btn-ubah').hide();
+				}else{
+					$('#btn-tambah').hide()
+					$('#btn-ubah').show()
+				}
 			}
 
 
