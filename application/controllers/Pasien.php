@@ -11,7 +11,9 @@ public function __construct()
 public function index()
 {
 	$data['title'] = 'Data Pasien';
+	$this->load->view('templates/header', $data);
 	$this->load->view('pasien/index', $data);
+	$this->load->view('templates/footer');
 }
 
 
@@ -24,10 +26,10 @@ public function ambilData()
 
 public function tambahData()
 {
-	$norm = $this->input->post('no_rekam_medis');
-	$nama = $this->input->post('nama_pasien');
-	$alamat = $this->input->post('alamat');
-	$notelp = $this->input->post('no_telp_pasien');
+	$norm = htmlspecialchars($this->input->post('no_rekam_medis', true));
+	$nama = htmlspecialchars($this->input->post('nama_pasien', true));
+	$alamat = htmlspecialchars($this->input->post('alamat', true));
+	$notelp = htmlspecialchars($this->input->post('no_telp_pasien', true));
 
 	if($norm == ''){
 		$result['pesan'] = 'No Rekam Medis Harus diisi';
@@ -63,10 +65,10 @@ public function ambilDataById(){
 public function ubah()
 {
 	$id = $this->input->post('id');
-	$norm = $this->input->post('norm');
-	$nama = $this->input->post('nama');
-	$alamat = $this->input->post('alamat');
-	$notelp = $this->input->post('notelp');
+	$norm = htmlspecialchars($this->input->post('norm', true));
+	$nama = htmlspecialchars($this->input->post('nama', true));
+	$alamat = htmlspecialchars($this->input->post('alamat', true));
+	$notelp = htmlspecialchars($this->input->post('notelp', true));
 
 	if($norm == ''){
 		$result['pesan'] = 'No Rekam Medis Harus diisi';
@@ -91,6 +93,12 @@ public function ubah()
 	
 	echo json_encode($result['pesan']);
 
+}
+
+public function hapus()
+{
+	$id = $this->input->post('id', true);
+	$this->Pasien_model->hapusDataPasien($id);
 }
 
 

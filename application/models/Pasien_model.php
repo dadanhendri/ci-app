@@ -38,6 +38,12 @@ class Pasien_model extends Ci_Model
 		$this->db->update('pasien', $data);
 	}
 
+	public function hapusDataPasien($id)
+	{
+		$this->db->where('id', $id);
+		$this->db->delete('pasien');
+	}
+
 
 
 
