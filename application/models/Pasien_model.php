@@ -26,6 +26,18 @@ class Pasien_model extends Ci_Model
 		$this->db->insert('pasien', $data);
 	}
 
+	public function getPasienById($id)
+	{
+		$this->db->where('id',$id);
+		return $this->db->get('pasien')->result();
+	}
+
+	public function ubahData($data,$id)
+	{
+		$this->db->where('id',$id);
+		$this->db->update('pasien', $data);
+	}
+
 
 
 

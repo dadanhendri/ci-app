@@ -47,6 +47,7 @@
 
 							<div class="modal-body">
 								<form action="">
+									<input type="hidden" name="id" id="id">
 									<div class="form-group row">
 										<label for="norm" class="col-sm-3 col-form-label">No RM</label>
 										<div class="col-sm-5">
@@ -76,7 +77,7 @@
 								
 							</div>
 							<div class="modal-footer">
-								<button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+								<button type="button" data-dismiss="modal" class="btn btn-danger" id="close">Close</button>
 								<button type="text" class="btn btn-primary" id="btn-tambah" onclick="tambahData();">Tambah</button>
 								<button type="text" class="btn btn-primary" id="btn-ubah" onclick="ubahData();">Ubah</button>
 							</div>
@@ -101,6 +102,13 @@
 
 			ambilData();
 
+			function clear(){
+				$("[name='norm']").val('');
+				$("[name='nama']").val('');
+				$("[name='alamat']").val('');
+				$("[name='notelp']").val('');				
+			}
+
 			function ambilData(){
 				$.ajax({
 					type:'post',
@@ -117,8 +125,7 @@
 										'<td>'+data.alamat+'</td>'+
 										'<td>'+data.no_telp_pasien+'</td>'+
 										'<td>'+
-											'<a href="#form" data-toggle="modal" class="badge badge-success" onclick="submit()">Ubah</a href="#">'+
-
+											'<a href="#form" data-toggle="modal" class="badge badge-success" onclick="submit('+data.id+')">Ubah</a>'+
 										'</td>'+
 									'</tr>';
 							no++;
@@ -130,6 +137,7 @@
 			}
 
 			function tambahData(){
+				clear();
 				$('#pesan').hide();
 				var norm = $("[name='norm']").val();
 				var nama = $("[name='nama']").val();
@@ -152,10 +160,7 @@
 
 							$('#form').modal('hide');
 							ambilData();
-							$("[name='norm']").val('');
-							$("[name='nama']").val('');
-							$("[name='alamat']").val('');
-							$("[name='notelp']").val('');
+							clear();
 						}
 					}
 				});
@@ -166,9 +171,51 @@
 					$('#btn-tambah').show();
 					$('#btn-ubah').hide();
 				}else{
-					$('#btn-tambah').hide()
-					$('#btn-ubah').show()
+					$('#btn-tambah').hide();
+					$('#btn-ubah').show();
+
+					$.ajax({
+						type:'post',
+						url:'<?php echo base_url()."pasien/ambilDataById" ?>',
+						data:'id='+x,
+						dataType:'json',
+						success:function(hasil){
+							$("[name='id']").val(hasil[0].id);
+							$("[name='norm']").val(hasil[0].no_rekam_medis);
+							$("[name='nama']").val(hasil[0].nama_pasien);
+							$("[name='alamat']").val(hasil[0].alamat);
+							$("[name='notelp']").val(hasil[0].no_telp_pasien);
+						}
+					});
 				}
+			}
+
+			function ubahData(){
+				var id = $("[name='id']").val();
+				var norm = $("[name='norm']").val();
+				var nama = $("[name='nama']").val();
+				var alamat = $("[name='alamat']").val();
+				var notelp = $("[name='notelp']").val();
+
+				$.ajax({
+					type:'post',
+					url:'<?php echo base_url()."pasien/ubah" ?>',
+					data:'id='+id+'&norm='+norm+'&nama='+nama+'&alamat='+alamat+'&notelp='+notelp,
+					dataType:'json',
+					success: function(hasil){						
+						$("#pesan").html(hasil);
+						if(hasil == ''){
+							swal.fire({
+								title:'Data berhasil diubah',
+								icon:'success'
+							});
+							clear();
+							$('#form').modal('hide');
+
+							ambilData();
+						}
+					}
+				})
 			}
 
 
