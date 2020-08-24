@@ -18,4 +18,17 @@ class Dokter extends Ci_controller
 		$this->load->view('dokter/index', $data);
 		$this->load->view('templates/footer');
 	}
+
+	public function tambah()
+	{
+		$data['title'] = 'Halaman tambah data';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('dokter/tambah_view');
+		$this->load->view('templates/footer');
+	}
+
+
+
+
 }
