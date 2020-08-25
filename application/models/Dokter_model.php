@@ -7,4 +7,12 @@ class Dokter_model extends Ci_Model
 	{
 		return $this->db->get('dokter')->result_array();
 	}
+
+	public function tambahDataDokter($data)
+	{
+		$this->db->insert('dokter', $data);
+	}
+
+
+
 }

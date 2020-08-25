@@ -5,7 +5,7 @@
 				<h5 class="card-header">Tambah Data Dokter</h5>
 				<div class="body">
 					<div class="container">
-						<form action="" class="form" role="form">
+						<form action="" method="post">
 							<div class="form-group">
 								<label for="kddok">Kode Dokter</label>
 								<input type="text" name="kddok" id="kddok" placeholder="Masukan Kode Dokter" class="form-control">
@@ -22,12 +22,10 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="telp">Telp Dokter</label>
+								<label for="text">Telp Dokter</label>
 								<input type="tel" name="telp" id="telp" placeholder="Masukan Nomor Telp" class="form-control">
 							</div>
-
-
-
+							<button type="submit" class="btn btn-danger float-right" name="submit">Simpan</button>
 						</form>						
 					</div>
 				</div>
