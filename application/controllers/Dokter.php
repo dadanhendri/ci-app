@@ -16,6 +16,10 @@ class Dokter extends Ci_controller
 		$data['title'] = 'Halaman Dokter';
 		$data['dokter'] = $this->Dokter_model->getAllDokter();
 
+		if($this->input->post('keyword')){
+			$data['dokter'] = $this->Dokter_model->cariDataDokter();			
+		}
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('dokter/index', $data);
 		$this->load->view('templates/footer');

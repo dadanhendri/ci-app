@@ -33,6 +33,16 @@ class Dokter_model extends Ci_Model
 		$this->db->update('dokter', $data);
 	}
 
+	public function cariDataDokter()
+	{
+		$keyword = $this->input->post('keyword');
+		$this->db->like('kode_dok', $keyword);
+		$this->db->or_like('nama_dokter', $keyword);
+		$this->db->or_like('spesialis', $keyword);
+		$this->db->or_like('no_telp', $keyword);
+		return $this->db->get('dokter')->result_array();
+	}
+
 
 
 }
